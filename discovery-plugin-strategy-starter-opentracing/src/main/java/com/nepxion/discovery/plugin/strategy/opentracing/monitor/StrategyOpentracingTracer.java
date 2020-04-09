@@ -16,13 +16,18 @@ import io.opentracing.tag.Tags;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.AbstractStrategyTracer;
 
 public class StrategyOpentracingTracer extends AbstractStrategyTracer<Span> {
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_EXCEPTION_DETAIL_OUTPUT_ENABLED + ":false}")
+    protected Boolean tracerExceptionDetailOutputEnabled;
+
     @Autowired
     private Tracer tracer;
 
@@ -37,14 +42,14 @@ public class StrategyOpentracingTracer extends AbstractStrategyTracer<Span> {
     }
 
     @Override
-    protected void errorSpan(Span span, Map<String, String> contextMap, Throwable e) {
+    protected void errorSpan(Span span, Throwable e) {
         Map<String, Object> map = new HashMap<String, Object>();
-        if (MapUtils.isNotEmpty(contextMap)) {
-            map.putAll(contextMap);
-        }
         map.put(DiscoveryConstant.EVENT, Tags.ERROR.getKey());
-        map.put(DiscoveryConstant.ERROR_OBJECT, e);
-
+        if (tracerExceptionDetailOutputEnabled) {
+            map.put(DiscoveryConstant.ERROR_OBJECT, ExceptionUtils.getStackTrace(e));
+        } else {
+            map.put(DiscoveryConstant.ERROR_OBJECT, e);
+        }
         span.log(map);
     }
 

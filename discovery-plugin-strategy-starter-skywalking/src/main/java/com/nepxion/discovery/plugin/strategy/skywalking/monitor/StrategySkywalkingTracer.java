@@ -10,18 +10,19 @@ package com.nepxion.discovery.plugin.strategy.skywalking.monitor;
  */
 
 import io.opentracing.Tracer;
-import io.opentracing.tag.Tags;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.commons.collections4.MapUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.skywalking.apm.toolkit.opentracing.SkywalkingTracer;
+import org.springframework.beans.factory.annotation.Value;
 
 import com.nepxion.discovery.common.constant.DiscoveryConstant;
+import com.nepxion.discovery.plugin.strategy.constant.StrategyConstant;
 import com.nepxion.discovery.plugin.strategy.monitor.AbstractStrategyTracer;
 
 public class StrategySkywalkingTracer extends AbstractStrategyTracer<StrategySkywalkingSpan> {
+    @Value("${" + StrategyConstant.SPRING_APPLICATION_STRATEGY_TRACER_EXCEPTION_DETAIL_OUTPUT_ENABLED + ":false}")
+    protected Boolean tracerExceptionDetailOutputEnabled;
+
     private Tracer tracer = new SkywalkingTracer();
 
     @Override
@@ -35,15 +36,12 @@ public class StrategySkywalkingTracer extends AbstractStrategyTracer<StrategySky
     }
 
     @Override
-    protected void errorSpan(StrategySkywalkingSpan span, Map<String, String> contextMap, Throwable e) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        if (MapUtils.isNotEmpty(contextMap)) {
-            map.putAll(contextMap);
+    protected void errorSpan(StrategySkywalkingSpan span, Throwable e) {
+        if (tracerExceptionDetailOutputEnabled) {
+            span.setTag(DiscoveryConstant.ERROR_OBJECT, ExceptionUtils.getStackTrace(e));
+        } else {
+            span.setTag(DiscoveryConstant.ERROR_OBJECT, e.getMessage());
         }
-        map.put(DiscoveryConstant.EVENT, Tags.ERROR.getKey());
-        map.put(DiscoveryConstant.ERROR_OBJECT, e);
-
-        span.log(map);
     }
 
     @Override
