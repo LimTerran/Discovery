@@ -25,7 +25,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 - 灰度发布。基于规则订阅的全链路灰度发布，包括切换发布（版本匹配发布、区域匹配发布）和平滑发布（版本权重发布、区域权重发布）
 - 灰度路由。基于Header传递的全链路灰度路由，包括切换路由（版本匹配路由、区域匹配路由、机器IP和端口匹配路由）和平滑路由（版本权重路由、区域权重路由）。可以在网关过滤器、前端界面、负载均衡策略类三个地方实现路由功能
 - 组合式灰度发布和路由，灰度发布和灰度路由的多种组合式规则和策略，前端灰度&网关灰度路由组合式策略
-- 服务监控。包括调用链监控（Tracing）、日志监控（Logging）、指标监控（Metrics），CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）。框架支持OpenTracing、OpenTelemetry、Jaeger、Skywalking
+- 服务监控。包括调用链监控（Tracing）、日志监控（Logging）、指标监控（Metrics），CNCF技术委员会通过OpenTelemetry规范整合基于Tracing的OpenTracing规范（官方推荐Jaeger做Backend）和基于Metrics的OpenSensus规范（官方推荐Prometheus做Backend）。框架支持OpenTracing、OpenTelemetry、Jaeger、Skywalking、Pinpoint
     - 调用链监控（Tracing）包括Header方式、调用链方式、日志方式等单个或者组合式的全链路灰度调用链，支持对Sentinel自动埋点。调用链方式不支持Edgware版（Spring Boot 1.x.x）
     - 指标监控（Metrics）包括Prometheus、Grafana、Spring Boot Admin
 - 服务隔离。基于组和黑/白名单的全链路服务隔离，包括注册准入隔离（基于黑/白名单，包括组和IP地址的准入、最大注册数限制的准入）、消费端隔离（基于组的负载均衡的隔离、基于黑/白名单的IP地址的隔离）和提供端隔离（基于组的Header传值策略的隔离）
@@ -59,7 +59,7 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 - 由于源码中带有的示例功能比较齐全，较为复杂。强烈建议，先学习[指南示例](https://github.com/Nepxion/DiscoveryGuide)
 
 ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Attention.png) 鸣谢
-- 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@亦盏、@洛夜的技术支持
+- 感谢阿里巴巴中间件Nacos和Sentinel团队，尤其是Nacos负责人@于怀，Sentinel负责人@子衿，Spring Cloud Alibaba负责人@小马哥、@亦盏、@洛夜的技术支持
 - 感谢携程Apollo团队，尤其是@宋顺，特意开发OpenApi包和技术支持
 - 感谢代码贡献者，包括@WeihuaWang，@张顺，@Esun，@liumapp，@terranhu，@JikaiSun，@HaoHuang，@FanYang，@Ankeway等
 - 感谢为本框架进行测试验证和问题分析定位的同学，包括@张龙，@CongweiXu，@fan，@阿神，@慕紫，@郝俊仁，@Windon，@杨成，@李鹏，@任学会等
@@ -142,8 +142,8 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
       <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/fykj.png"></td>
       <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xhjy.png"></td>
       <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/xywkj.png"></td>
-      <td></td>
-      <td></td>
+      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/zyts.png"></td>
+      <td><img style="max-height:70%;max-width:70%;" src="https://github.com/HaojunRen/Docs/raw/master/logo-doc/wx.png"></td>
     </tr>
   </tbody>
 </table>
@@ -156,10 +156,10 @@ Nepxion Discovery【探索】框架架构，基于Spring Cloud Discovery服务�
 
 | 框架版本 | 框架分支 | 框架状态 | Spring Cloud版本 | Spring Boot版本 | Spring Cloud Alibaba版本 |
 | --- | --- | --- | --- | --- | --- |
-| 6.0.0 | master | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
+| 6.0.1 | master | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Hoxton<br>Greenwich<br>Finchley | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE | 2.2.x.RELEASE<br>2.1.x.RELEASE<br>2.0.x.RELEASE |
 | ~~5.6.0~~ | ~~5.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Greenwich | 2.1.x.RELEASE | 2.1.x.RELEASE |
 | ~~4.15.0~~ | ~~4.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status2.png) | Finchley | 2.0.x.RELEASE | 2.0.x.RELEASE |
-| 3.16.0 | master-3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
+| 3.16.1 | master-3.x.x | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status1.png) | Edgware | 1.5.x.RELEASE | 1.5.x.RELEASE |
 | ~~2.0.x~~ | ~~2.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Dalston | 1.x.x.RELEASE | N/A |
 | ~~1.0.x~~ | ~~1.x.x~~ | ![](https://github.com/HaojunRen/Docs/raw/master/discovery-doc/Status3.png) | Camden | 1.x.x.RELEASE | N/A |
 
@@ -434,15 +434,18 @@ Spring Boot Admin监控平台
 | discovery-plugin-strategy-sentinel-starter-opentracing | 路由策略的Sentinel OpenTracing Starter |
 | discovery-plugin-strategy-sentinel-starter-opentelemetry | 路由策略的Sentinel OpenTelemetry Starter |
 | discovery-plugin-strategy-sentinel-starter-skywalking | 路由策略的Sentinel Skywalking Starter |
+| discovery-plugin-strategy-sentinel-starter-pinpoint | 路由策略的Sentinel Pinpoint Starter |
 | discovery-plugin-strategy-starter-service | 路由策略的Service Starter |
 | discovery-plugin-strategy-starter-service-sentinel | 路由策略的Service Sentinel Starter |
 | discovery-plugin-strategy-starter-zuul | 路由策略的Zuul Starter |
 | discovery-plugin-strategy-starter-gateway | 路由策略的Spring Cloud Gateway Starter |
 | discovery-plugin-strategy-starter-hystrix | 路由策略下，Hystrix做线程模式的服务隔离必须引入的插件 Starter |
-| discovery-plugin-strategy-starter-opentracing | 路由策略的Spring Cloud OpenTracing Starter |
-| discovery-plugin-strategy-starter-opentelemetry | 路由策略的Spring Cloud OpenTelemetry Starter |
-| discovery-plugin-strategy-starter-skywalking | 路由策略的Spring Cloud Skywalking Starter |
-| discovery-plugin-strategy-starter-agent | 路由策略的Spring Cloud Agent Starter |
+| discovery-plugin-strategy-starter-opentracing | 路由策略的OpenTracing Starter |
+| discovery-plugin-strategy-starter-opentelemetry | 路由策略的OpenTelemetry Starter |
+| discovery-plugin-strategy-starter-skywalking | 路由策略的Skywalking Starter |
+| discovery-plugin-strategy-starter-pinpoint | 路由策略的Pinpoint Starter |
+| discovery-plugin-strategy-starter-logger | 路由策略的Logger Starter |
+| discovery-plugin-strategy-starter-agent | 路由策略的Agent Starter |
 | discovery-plugin-test-starter | 自动化测试 Starter |
 | discovery-console | 控制平台，集成接口给UI |
 | discovery-console-starter-apollo | 控制平台的Apollo Starter |
