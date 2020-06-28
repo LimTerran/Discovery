@@ -14,12 +14,11 @@ import io.opentracing.SpanContext;
 
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.skywalking.apm.toolkit.trace.TraceContext;
+
+import com.nepxion.discovery.common.constant.DiscoveryConstant;
 
 public class StrategySkywalkingSpan implements Span {
-    private static final Logger LOG = LoggerFactory.getLogger(StrategySkywalkingSpan.class);
-
     private Span span;
     private String traceId;
     private String spanId;
@@ -117,7 +116,9 @@ public class StrategySkywalkingSpan implements Span {
 
     private String createTraceId() {
         try {
-            return StrategySkywalkingResolver.createTraceId();
+            // return StrategySkywalkingResolver.createTraceId();
+
+            return TraceContext.traceId();
         } catch (Exception e) {
             return null;
         }
@@ -125,7 +126,9 @@ public class StrategySkywalkingSpan implements Span {
 
     private String createSpanId() {
         try {
-            return StrategySkywalkingResolver.createSpanId();
+            // return StrategySkywalkingResolver.createSpanId();
+
+            return DiscoveryConstant.IGNORED;
         } catch (Exception e) {
             return null;
         }

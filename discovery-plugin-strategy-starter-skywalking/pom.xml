@@ -11,7 +11,7 @@
     <parent>
         <groupId>com.nepxion</groupId>
         <artifactId>discovery</artifactId>
-        <version>6.0.2</version>
+        <version>6.0.5</version>
     </parent>
 
     <dependencies>
@@ -33,6 +33,11 @@
                     <artifactId>opentracing-noop</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.skywalking</groupId>
+            <artifactId>apm-toolkit-trace</artifactId>
         </dependency>
 
         <dependency>
